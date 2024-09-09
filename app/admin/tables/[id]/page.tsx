@@ -17,10 +17,12 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
+import ServicesDeleteButton from "../../services/DeleteButton";
 import PartnersDeleteButton from "../../partners/DeleteButton";
 import DeleteButton from "../../eventsnews/DeleteButton";
 
 import PartnersTable from "@/app/component/TableMain/Partners/PartnersTable";
+import ServicesTable from "@/app/component/TableMain/Services/ServiceTable";
 
 interface Props {
   params: { id: string };
@@ -30,6 +32,7 @@ const page = async ({ params }: Props) => {
   const prisma = new PrismaClient();
   const newsAndEvents = await prisma.newsEvents.findMany();
   const partners = await prisma.partners.findMany();
+  const services = await prisma.services.findMany();
 
   return (
     <Grid
@@ -88,6 +91,51 @@ const page = async ({ params }: Props) => {
               </Tr>
             ))}
           </PartnersTable>
+        )}
+
+        {/*ServicesTable */}
+        {params.id === "services" && (
+          <ServicesTable>
+            {services.map((service) => (
+              <Tr key={service.id}>
+                <Td> {service.title}</Td>
+                <Td> {service.descriptionM}</Td>
+                <Td> {service.descriptionL}</Td>
+                <Td>
+                  <img
+                    src={service.icon}
+                    alt=""
+                    style={{ maxWidth: "100px" }}
+                  ></img>
+                </Td>
+                <Td>
+                  <img
+                    src={service.image!}
+                    alt=""
+                    style={{ maxWidth: "100px" }}
+                  ></img>
+                </Td>
+                <Td> {service.createdAt.toDateString()}</Td>
+                <Td> {service.updatedAt.toDateString()}</Td>
+
+                <Td isNumeric>
+                  <ServicesDeleteButton
+                    servicesId={service.id}
+                  ></ServicesDeleteButton>
+
+                  <Link href={`/admin/services/${service.id}/edit`}>
+                    <IconButton
+                      variant="outline"
+                      colorScheme="teal"
+                      aria-label="Edit event"
+                      marginLeft={2}
+                      icon={<MdModeEdit />}
+                    />
+                  </Link>
+                </Td>
+              </Tr>
+            ))}
+          </ServicesTable>
         )}
 
         {/* EventAndNewsTable */}

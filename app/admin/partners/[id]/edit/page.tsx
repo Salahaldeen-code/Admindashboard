@@ -7,7 +7,7 @@ interface Props {
   params: { id: string };
 }
 
-const EditNewsEvents = async ({ params }: Props) => {
+const Editpartners = async ({ params }: Props) => {
   const partners = await prisma.partners.findUnique({
     where: { id: parseInt(params.id) },
   });
@@ -16,4 +16,4 @@ const EditNewsEvents = async ({ params }: Props) => {
   return <PartnersForm partners={partners}></PartnersForm>;
 };
 
-export default EditNewsEvents;
+export default Editpartners;

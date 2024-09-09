@@ -21,7 +21,7 @@ import "easymde/dist/easymde.min.css";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-type PartnersFormData = z.infer<typeof createPartnersSchema>;
+type ServicesFormData = z.infer<typeof createPartnersSchema>;
 
 const PartnersForm = ({ partners }: { partners?: Partners }) => {
   const {
@@ -29,7 +29,7 @@ const PartnersForm = ({ partners }: { partners?: Partners }) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<PartnersFormData>({
+  } = useForm<ServicesFormData>({
     resolver: zodResolver(createPartnersSchema),
   });
   const router = useRouter();
