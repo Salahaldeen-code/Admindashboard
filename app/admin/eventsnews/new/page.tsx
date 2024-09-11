@@ -1,4 +1,4 @@
-import EventAndNewsForm from "@/app/component/CreateNew/EventAndNews/EventAndNewsForm";
+import EventAndNewsForm from "@/app/admin/Components/CreateNew/EventAndNews/EventAndNewsForm";
 import React from "react";
 
 const page = () => {

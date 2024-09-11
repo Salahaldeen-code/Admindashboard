@@ -1,9 +1,9 @@
-import PartnersTable from "@/app/component/TableMain/Partners/PartnersTable";
-import ServicesTable from "@/app/component/TableMain/Services/ServiceTable";
+import PartnersTable from "@/app/admin/Components/TableMain/Partners/PartnersTable";
+import ServicesTable from "@/app/admin/Components/TableMain/Services/ServiceTable";
 import { notFound } from "next/navigation";
 import { ChakraProvider, Grid, GridItem, Show } from "@chakra-ui/react";
-import Example from "../component/ChangeColorMode";
-import NavBar from "../component/NavBar/NavBar";
+import Example from "./Components/ChangeColorMode";
+import NavBar from "./Components/NavBar/NavBar";
 
 const AdminPage = () => {
   return (

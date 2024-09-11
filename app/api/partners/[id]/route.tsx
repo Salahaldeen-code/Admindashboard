@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createNewsEventsSchema } from "../../../component/CreateNew/EventAndNews/ValidationSchema";
-import prisma from "@/prisma/client";
+import 
 import path from "path";
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+
 
 export async function PATCH(
   request: NextRequest,

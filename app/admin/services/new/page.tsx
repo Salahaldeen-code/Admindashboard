@@ -1,4 +1,4 @@
-import ServicesFormForm from "@/app/component/CreateNew/Services/ServicesForm";
+import ServicesFormForm from "@/app/admin/Components/CreateNew/Services/ServicesForm";
 import React from "react";
 
 const page = () => {

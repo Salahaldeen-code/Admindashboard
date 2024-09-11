@@ -1,4 +1,4 @@
-import NewsEventsForm from "@/app/component/CreateNew/EventAndNews/EventAndNewsForm";
+import NewsEventsForm from "@/app/admin/Components/CreateNew/EventAndNews/EventAndNewsForm";
 import prisma from "@/prisma/client";
 import { notFound } from "next/navigation";
 import React from "react";

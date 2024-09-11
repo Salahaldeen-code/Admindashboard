@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createNewsEventsSchema } from "../../../component/CreateNew/EventAndNews/ValidationSchema";
+import { createNewsEventsSchema } from "../../../admin/Components/CreateNew/EventAndNews/ValidationSchema";
 import prisma from "@/prisma/client";
 import path from 'path';
 import fs from 'fs';

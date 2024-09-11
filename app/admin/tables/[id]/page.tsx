@@ -9,21 +9,29 @@ import {
   Td,
   Tr,
 } from "@chakra-ui/react";
-import NavBar from "../../../component/NavBar/NavBar";
-import EventAndNewsTable from "../../../component/TableMain/EventAndeNews/EventAndeNewsTable";
+import NavBar from "@/app/component/NavBar/NavBar";
+import EventAndNewsForm from "@/app/component/CreateNew/EventAndNews/EventAndNewsForm";
 import { PrismaClient } from "@prisma/client";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
-import ServicesDeleteButton from "../../services/DeleteButton";
 import PartnersDeleteButton from "../../partners/DeleteButton";
 import DeleteButton from "../../eventsnews/DeleteButton";
 
-import PartnersTable from "@/app/component/TableMain/Partners/PartnersTable";
+import GeneralInfoTable from "../../Components/TableMain/GeneralInfo/GeneralInfoTable";
+import PartnersForm from "@/app/component/CreateNew/Partner/partnerForm";
+import ExperienceTable from "@/app/admin/Components/TableMain/Experience/ExperienceTable";
+import ExperiencesDeleteButton from "../../experiences/DeleteButton";
+import CertificatesDeleteButton from "../../certificates/DeleteButton";
+import CertificatesTable from "@/app/admin/Components/TableMain/Certificatee/CertificateeTable";
 import ServicesTable from "@/app/component/TableMain/Services/ServiceTable";
-import GeneralInfoTable from "@/app/component/TableMain/GeneralInfo/GeneralInfoTable";
+import ServicesDeleteButton from "../../services/DeleteButton";
+import DirectorsTable from "@/app/admin/Components/TableMain/TeamAndDirectores/DirectoresTable";
+import TeamsDeleteButton from "../../teamsdirectors/DeleteButton";
+import PartnersTable from "@/app/component/TableMain/Partners/PartnersTable";
+import EventsTable from "@/app/component/TableMain/EventAndeNews/EventAndeNewsTable";
 
 interface Props {
   params: { id: string };
@@ -33,8 +41,11 @@ const page = async ({ params }: Props) => {
   const prisma = new PrismaClient();
   const newsAndEvents = await prisma.newsEvents.findMany();
   const partners = await prisma.partners.findMany();
+  const experiences = await prisma.experiences.findMany();
+  const certificates = await prisma.certificates.findMany();
   const services = await prisma.services.findMany();
   const generalInfo = await prisma.generalInfo.findMany();
+  const teamsDirectors = await prisma.teamOrDirectors.findMany();
 
   return (
     <Grid
@@ -95,37 +106,30 @@ const page = async ({ params }: Props) => {
           </PartnersTable>
         )}
 
-        {/*ServicesTable */}
-        {params.id === "services" && (
-          <ServicesTable>
-            {services.map((service) => (
-              <Tr key={service.id}>
-                <Td> {service.title}</Td>
-                <Td> {service.descriptionM}</Td>
-                <Td> {service.descriptionL}</Td>
+        {/*experienceTable */}
+        {params.id === "experience" && (
+          <ExperienceTable>
+            {experiences.map((experience) => (
+              <Tr key={experience.id}>
+                <Td> {experience.title}</Td>
+                <Td> {experience.description}</Td>
+                <Td> {experience.date}</Td>
                 <Td>
                   <img
-                    src={service.icon}
+                    src={experience.logo!}
                     alt=""
                     style={{ maxWidth: "100px" }}
                   ></img>
                 </Td>
-                <Td>
-                  <img
-                    src={service.image!}
-                    alt=""
-                    style={{ maxWidth: "100px" }}
-                  ></img>
-                </Td>
-                <Td> {service.createdAt.toDateString()}</Td>
-                <Td> {service.updatedAt.toDateString()}</Td>
+                <Td> {experience.createdAt.toDateString()}</Td>
+                <Td> {experience.updatedAt.toDateString()}</Td>
 
                 <Td isNumeric>
-                  <ServicesDeleteButton
-                    servicesId={service.id}
-                  ></ServicesDeleteButton>
+                  <ExperiencesDeleteButton
+                    partnerId={experience.id}
+                  ></ExperiencesDeleteButton>
 
-                  <Link href={`/admin/services/${service.id}/edit`}>
+                  <Link href={`/admin/experiences/${experience.id}/edit`}>
                     <IconButton
                       variant="outline"
                       colorScheme="teal"
@@ -137,16 +141,57 @@ const page = async ({ params }: Props) => {
                 </Td>
               </Tr>
             ))}
-          </ServicesTable>
+          </ExperienceTable>
+        )}
+
+        {/*CertificatesTable */}
+        {params.id === "certificates" && (
+          <CertificatesTable>
+            {certificates.map((certificate) => (
+              <Tr key={certificate.id}>
+                <Td> {certificate.name}</Td>
+                <Td> {certificate.description}</Td>
+                <Td>
+                  <img
+                    src={certificate.image!}
+                    alt=""
+                    style={{ maxWidth: "100px" }}
+                  ></img>
+                </Td>
+                <Td> {certificate.createdAt.toDateString()}</Td>
+                <Td> {certificate.updatedAt.toDateString()}</Td>
+
+                <Td isNumeric>
+                  <CertificatesDeleteButton
+                    certificatesId={certificate.id}
+                  ></CertificatesDeleteButton>
+
+                  <Link href={`/admin/certificates/${certificate.id}/edit`}>
+                    <IconButton
+                      variant="outline"
+                      colorScheme="teal"
+                      aria-label="Edit event"
+                      marginLeft={2}
+                      icon={<MdModeEdit />}
+                    />
+                  </Link>
+                </Td>
+              </Tr>
+            ))}
+          </CertificatesTable>
         )}
 
         {/* EventAndNewsTable */}
         {params.id === "eventnews" && (
-          <EventAndNewsTable>
+          <EventsTable>
             {newsAndEvents.map((event) => (
               <Tr key={event.id}>
                 <Td> {event.title}</Td>
-                <Td> {event.description}</Td>
+                <Td>
+                  {event.description.length > 60
+                    ? `${event.description.slice(0, 60)}...`
+                    : event.description}
+                </Td>
                 <Td> {event.short_description}</Td>
                 <Td> {event.date}</Td>
                 <Td>
@@ -173,7 +218,7 @@ const page = async ({ params }: Props) => {
                 </Td>
               </Tr>
             ))}
-          </EventAndNewsTable>
+          </EventsTable>
         )}
 
         {/* GeneralInfoTable */}
@@ -202,6 +247,86 @@ const page = async ({ params }: Props) => {
               </Tr>
             ))}
           </GeneralInfoTable>
+        )}
+        {/* ServicesTable */}
+        {params.id === "services" && (
+          <ServicesTable>
+            {services.map((service) => (
+              <Tr key={service.id}>
+                <Td> {service.title}</Td>
+                <Td> {service.descriptionM}</Td>
+                <Td> {service.descriptionL}</Td>
+                <Td>
+                  <img
+                    src={service.icon}
+                    alt=""
+                    style={{ maxWidth: "100px" }}
+                  ></img>
+                </Td>
+                <Td>
+                  <img
+                    src={service.image!}
+                    alt=""
+                    style={{ maxWidth: "100px" }}
+                  ></img>
+                </Td>
+                <Td> {service.createdAt.toDateString()}</Td>
+                <Td> {service.updatedAt.toDateString()}</Td>
+                <Td isNumeric>
+                  <ServicesDeleteButton
+                    servicesId={service.id}
+                  ></ServicesDeleteButton>
+
+                  <Link href={`/admin/services/${service.id}/edit`}>
+                    <IconButton
+                      variant="outline"
+                      colorScheme="teal"
+                      aria-label="Edit event"
+                      marginLeft={2}
+                      icon={<MdModeEdit />}
+                    />
+                  </Link>
+                </Td>
+              </Tr>
+            ))}
+          </ServicesTable>
+        )}
+
+        {/* TeamsDirectors Table */}
+        {params.id === "teamsdirectors" && (
+          <DirectorsTable>
+            {teamsDirectors.map((team) => (
+              <Tr key={team.id}>
+                <Td> {team.name}</Td>
+                <Td> {team.position}</Td>
+                <Td> {team.bio}</Td>
+                <Td>
+                  <img
+                    src={team.image}
+                    alt=""
+                    style={{ maxWidth: "100px" }}
+                  ></img>
+                </Td>
+                <Td> {team.createdAt.toDateString()}</Td>
+                <Td> {team.updatedAt.toDateString()}</Td>
+                <Td isNumeric>
+                  <TeamsDeleteButton
+                    teamsdirectorsId={team.id}
+                  ></TeamsDeleteButton>
+
+                  <Link href={`/admin/teamsdirectors/${team.id}/edit`}>
+                    <IconButton
+                      variant="outline"
+                      colorScheme="teal"
+                      aria-label="Edit event"
+                      marginLeft={2}
+                      icon={<MdModeEdit />}
+                    />
+                  </Link>
+                </Td>
+              </Tr>
+            ))}
+          </DirectorsTable>
         )}
       </GridItem>
       <GridItem pl="2" bg="blue.300" area={"footer"}>
