@@ -14,7 +14,7 @@ const NavBar = () => {
         <ButtonNav link="eventnews" text="Event&News"></ButtonNav>
         <ButtonNav link="teamsdirectors" text="Team&Directors"></ButtonNav>
         <ButtonNav link="conatct" text="Contact"></ButtonNav>
-        <ButtonNav link="aboutus" text="About Us"></ButtonNav>
+        <ButtonNav link="generalInfo" text="GeneralInfo"></ButtonNav>
       </VStack>
     </div>
   );

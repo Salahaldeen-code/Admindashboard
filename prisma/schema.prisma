@@ -82,6 +82,7 @@ model TeamOrDirectors {
 
 model GeneralInfo {
   id        Int      @id @default(autoincrement())
+  title     String
   key       String
   value     String
   createdAt DateTime @default(now())

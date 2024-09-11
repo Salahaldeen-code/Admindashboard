@@ -23,6 +23,7 @@ import DeleteButton from "../../eventsnews/DeleteButton";
 
 import PartnersTable from "@/app/component/TableMain/Partners/PartnersTable";
 import ServicesTable from "@/app/component/TableMain/Services/ServiceTable";
+import GeneralInfoTable from "@/app/component/TableMain/GeneralInfo/GeneralInfoTable";
 
 interface Props {
   params: { id: string };
@@ -33,6 +34,7 @@ const page = async ({ params }: Props) => {
   const newsAndEvents = await prisma.newsEvents.findMany();
   const partners = await prisma.partners.findMany();
   const services = await prisma.services.findMany();
+  const generalInfo = await prisma.generalInfo.findMany();
 
   return (
     <Grid
@@ -172,6 +174,34 @@ const page = async ({ params }: Props) => {
               </Tr>
             ))}
           </EventAndNewsTable>
+        )}
+
+        {/* GeneralInfoTable */}
+        {params.id === "generalInfo" && (
+          <GeneralInfoTable>
+            {generalInfo.map((generalInfo) => (
+              <Tr key={generalInfo.id}>
+                <Td> {generalInfo.title}</Td>
+                <Td> {generalInfo.key}</Td>
+                <Td> {generalInfo.value}</Td>
+                <Td> {generalInfo.createdAt.toDateString()}</Td>
+                <Td> {generalInfo.updatedAt.toDateString()}</Td>
+
+                <Td isNumeric>
+                  <DeleteButton newsEventsId={generalInfo.id}></DeleteButton>
+                  <Link href={`/admin/generalInfo/${generalInfo.id}/edit`}>
+                    <IconButton
+                      variant="outline"
+                      colorScheme="teal"
+                      aria-label="Edit generalInfo"
+                      marginLeft={2}
+                      icon={<MdModeEdit />}
+                    />
+                  </Link>
+                </Td>
+              </Tr>
+            ))}
+          </GeneralInfoTable>
         )}
       </GridItem>
       <GridItem pl="2" bg="blue.300" area={"footer"}>

@@ -1,4 +1,4 @@
-"use clint";
+"use client";
 
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
@@ -13,91 +13,34 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { PropsWithChildren } from "react";
+import { useRouter } from "next/navigation";
+const GeneralInfoTable = ({ children }: PropsWithChildren) => {
+  const route = useRouter();
 
-const GeneralInfoTable = () => {
   return (
     <div>
       <TableContainer borderRadius={0}>
         <Table size="lg">
           <Thead>
             <Tr bg={"#2D3748"}>
-              <Th color={"white"}>To convert</Th>
-              <Th color={"white"}>into</Th>
-              <Th color={"white"}>multiply by</Th>
-              <Th color={"white"}>into</Th>
+              <Th color={"white"}>Title</Th>
+              <Th color={"white"}>Small Description</Th>
+              <Th color={"white"}>Long Description </Th>
+              <Th color={"white"}>Created At</Th>
+              <Th color={"white"}>Deleted At </Th>
               <Th color={"white"} isNumeric>
-                <Button colorScheme="teal" variant="outline">
-                  create
+                <Button
+                  colorScheme="teal"
+                  variant="outline"
+                  onClick={() => route.push("/admin/generalInfo/new")}
+                >
+                  Create
                 </Button>{" "}
               </Th>
             </Tr>
           </Thead>
-          <Tbody bg={"#CBD5E0"}>
-            <Tr>
-              <Td>inches</Td>
-              <Td>millimetres (mm)</Td>
-              <Td>25.4</Td>
-              <Td>millimetres (mm)</Td>
-              <Td isNumeric>
-                <IconButton
-                  variant="outline"
-                  colorScheme="teal"
-                  aria-label="Send email"
-                  icon={<DeleteIcon />}
-                />
-                <IconButton
-                  variant="outline"
-                  colorScheme="teal"
-                  aria-label="Send email"
-                  marginLeft={2}
-                  icon={<EditIcon />}
-                />
-              </Td>{" "}
-            </Tr>
-            <Tr>
-              <Td>feet</Td>
-              <Td>centimetres (cm)</Td>
-              <Td>30.48</Td>
-              <Td>centimetres (cm)</Td>
-              <Td isNumeric>
-                <IconButton
-                  variant="outline"
-                  colorScheme="teal"
-                  aria-label="Send email"
-                  icon={<DeleteIcon />}
-                />
-                <IconButton
-                  variant="outline"
-                  colorScheme="teal"
-                  aria-label="Send email"
-                  marginLeft={2}
-                  icon={<EditIcon />}
-                />
-              </Td>{" "}
-            </Tr>
-            <Tr>
-              <Td>yards</Td>
-              <Td>metres (m)</Td>
-              <Td>0.91444</Td>
-              <Td>0.cvx</Td>
-              <Td isNumeric>
-                <IconButton
-                  variant="outline"
-                  colorScheme="teal"
-                  aria-label="Send email"
-                  icon={<DeleteIcon />}
-                />
-                <IconButton
-                  variant="outline"
-                  colorScheme="teal"
-                  aria-label="Send email"
-                  marginLeft={2}
-                  icon={<EditIcon />}
-                />
-              </Td>{" "}
-            </Tr>
-          </Tbody>
+          <Tbody bg={"#CBD5E0"}>{children}</Tbody>
         </Table>
       </TableContainer>
     </div>
